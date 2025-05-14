@@ -1,8 +1,12 @@
+import "dotenv/config";
 import express from 'express'
+// import connectToDatabase from './config/dbConnect'
+import './config/dbConnect.js'
 
 // para que possamos servir os arquivos da pasta "public" que contem as páginas html, temos que importar o url e path que é do módulo nativo do node
 import url from 'url'
 import path from 'path'
+
 
 // precios importar o http para que possamos criar o servidor
 import http from 'http'
@@ -11,6 +15,9 @@ import { Server } from 'socket.io'
 
 const app = express()
 const PORT = process.env.PORT || 3000;
+
+
+
 
 // pegando o caminho do arquivo atual
 const currentPath = url.fileURLToPath(import.meta.url)
