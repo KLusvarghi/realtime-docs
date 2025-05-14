@@ -24,7 +24,8 @@ io.on("connection", (socket) => {
   console.log("Nova conexão! Id: ", socket.id)
 
 
-  // iremos escurtar o ecento, recebendo o nome do documento a ser editado
+  // iremos escurtar o evento, recebendo o nome do documento a ser editado
+  // recebendo como parametro o nome do envento, o nome do documento e uma func que irá retornar o texto do documento, sendo  o "returnText" o callback que será chamado quando o servidor receber o evento
   socket.on("select_document", (documentName, returnText) => {
     // o "join" irá pegar o cliente que estpa conectado a esse socket e colocar em uma sala com o nome do documento.
     // Então, sempre que uma pessoa entrar no documento de JavaScript, por exemplo, estará entrando numa sala do Socket.IO chamada JavaScript.
@@ -43,7 +44,7 @@ io.on("connection", (socket) => {
 
   // pegando o evento que foi emitido pelo cliente
   // com "socket.on" ele irá escutar o evento que foi emitido pelo cliente (de todos conectados ao servidor)
-  // o primeiro valor é o nome do evento, e o segundo é a função que será executada quando o evento for emitido, e nessa função podemos receber por parametro o valor que foi emitido pelo cliente (caso ele tenha passado algum valor)
+  // o primeiro valor é o nome do evento, e o segundo neste caso é um objeto que contém o texto e o nome do documento e apenas desestruturamos ele
   socket.on("text_input", ({ text, documentName }) => {
 
     // salvando o texto do documento localmente, apenas alterando o valor do objeto
@@ -66,5 +67,6 @@ io.on("connection", (socket) => {
 
 function findDocument(name) {
   const document = documents.find((doc) => doc.name === name)
+  console.log("document", document)
   return document
 }
