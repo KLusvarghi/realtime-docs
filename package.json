@@ -1,0 +1,29 @@
+{
+  "name": "realtime-docs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/socket-back.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KLusvarghi/realtime-docs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KLusvarghi/realtime-docs/issues"
+  },
+  "homepage": "https://github.com/KLusvarghi/realtime-docs#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
