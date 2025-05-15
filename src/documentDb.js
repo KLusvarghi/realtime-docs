@@ -22,9 +22,19 @@ export function updateDocument(name, text) {
     })
 }
 
-export async function getDocuments(){
+export function getDocuments() {
 
   // esse metodo "find" do mongo retorna todos os documentos que estão na collection, e o "toArray" transforma o resultado em um array
-  const documents = await documentsCollection.find().toArray()
+  const documents = documentsCollection.find().toArray()
   return documents
+}
+
+export function createNewDocument(name) {
+  // o metodo "insertOne" do mongo insere um novo documento na collection, e o valor que queremos inserir é o objeto que passamos como parametro
+  const result = documentsCollection.insertOne({
+    name,
+    text: ''
+  })
+
+  return result
 }
