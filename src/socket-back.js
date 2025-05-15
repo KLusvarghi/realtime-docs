@@ -1,4 +1,4 @@
-import { createNewDocument, findDocument, getDocuments, updateDocument } from "./documentDb.js"
+import { createNewDocument, deleteDocument, findDocument, getDocuments, updateDocument } from "./documentDb.js"
 import io from "./server.js"
 
 
@@ -15,14 +15,41 @@ io.on("connection", (socket) => {
   })
 
   socket.on("new_document", async (documentName) => {
-    const result = await createNewDocument(documentName)
 
-    if (result.acknowledged) {
-      // caso o documento tenha sido criado com sucesso, vamos emitir um evento para todos os clientes que estão conectados ao servidor
-      // o "io" é o servidor, e o "emit" irá emitir um evento para todos os clientes que estão conectados ao servidor
-      io.emit("add_newDocument_interface", documentName)
-      // sendo escutado pelo front-end
+    const existDocument = (await findDocument(documentName) !== null)
+
+    if (!existDocument) {
+
+
+      const result = await createNewDocument(documentName)
+
+      if (result.acknowledged) {
+        // caso o documento tenha sido criado com sucesso, vamos emitir um evento para todos os clientes que estão conectados ao servidor
+        // o "io" é o servidor, e o "emit" irá emitir um evento para todos os clientes que estão conectados ao servidor
+        io.emit("add_newDocument_interface", documentName)
+        // sendo escutado pelo front-end
+      }
+    } else {
+      socket.emit("document_already_exists", documentName)
     }
+  })
+
+  socket.on("delete_document", async (documentName) => {
+    // verificando se o docuemnto existe
+
+    if (await findDocument(documentName) !== null) {
+      const result = await deleteDocument(documentName)
+      if (result.deletedCount > 0) {
+        io.emit("delete_document_success", documentName)
+      } else {
+        socket.emit("document_not_found", documentName)
+      }
+    }
+
+
+    // const result = await documentsCollection.deleteOne({
+    //   name: documentName
+    // })
   })
 
 
@@ -63,7 +90,6 @@ io.on("connection", (socket) => {
       socket.to(documentName).emit("text_input_allClients", text)
     }
   })
-
 })
 
 
