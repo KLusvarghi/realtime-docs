@@ -1,10 +1,17 @@
-import "./socket-front-index.js"
+import { createNewDocument } from "./socket-front-index.js";
 
 const documentList = document.getElementById('document-list');
+const form = document.getElementById('form-add-document');
+const newDocumentInput = document.getElementById('input-documento');
 
-// const form = document.getElementById('.form-adiciona-documento"');
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
 
-console.log(documentList)
+  // emitindo o evento para o servidor
+    createNewDocument(newDocumentInput.value)
+  // limpando o input
+  newDocumentInput.value = '';
+})
 
 export function insertLinkDocument(documentName) {
   documentList.innerHTML += `
