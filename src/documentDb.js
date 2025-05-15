@@ -2,7 +2,10 @@ import { documentsCollection } from "./config/dbConnect.js"
 
 export function findDocument(name) {
   // usando o metodo do mongo para encontrar o documento, e como o nome da propriedade é igual ao nome da variavel, podemos usar apenas o nome da variavel
-  return documentsCollection.findOne({ name })
+  return documentsCollection.findOne({
+    // para que possamos fazer uma busca mais flexivel, podemos usar o regex, e o $options: 'i' faz com que a busca seja case insensitive
+    name: { $regex: `^${name}$`, $options: 'i' }
+  })
 }
 
 export function updateDocument(name, text) {
@@ -34,6 +37,14 @@ export function createNewDocument(name) {
   const result = documentsCollection.insertOne({
     name,
     text: ''
+  })
+
+  return result
+}
+
+export function deleteDocument(name) {
+  const result = documentsCollection.deleteOne({
+    name
   })
 
   return result
