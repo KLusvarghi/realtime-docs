@@ -1,4 +1,4 @@
-import { findDocument, getDocuments, updateDocument } from "./documentDb.js"
+import { createNewDocument, findDocument, getDocuments, updateDocument } from "./documentDb.js"
 import io from "./server.js"
 
 
@@ -12,6 +12,17 @@ io.on("connection", (socket) => {
     const documents = await getDocuments()
     console.log(documents)
     returnDocuments(documents)
+  })
+
+  socket.on("new_document", async (documentName) => {
+    const result = await createNewDocument(documentName)
+
+    if (result.acknowledged) {
+      // caso o documento tenha sido criado com sucesso, vamos emitir um evento para todos os clientes que estão conectados ao servidor
+      // o "io" é o servidor, e o "emit" irá emitir um evento para todos os clientes que estão conectados ao servidor
+      io.emit("add_newDocument_interface", documentName)
+      // sendo escutado pelo front-end
+    }
   })
 
 
