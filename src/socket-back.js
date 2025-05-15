@@ -1,4 +1,4 @@
-import { findDocument, updateDocument } from "./documentDb.js"
+import { findDocument, getDocuments, updateDocument } from "./documentDb.js"
 import io from "./server.js"
 
 
@@ -7,6 +7,12 @@ import io from "./server.js"
 // e quando uma conexão é feita, ele executa a função que está dentro do "on"'
 io.on("connection", (socket) => {
   console.log("Nova conexão! Id: ", socket.id)
+
+  socket.on('get_documents', async (returnDocuments) => {
+    const documents = await getDocuments()
+    console.log(documents)
+    returnDocuments(documents)
+  })
 
 
   // iremos escurtar o ecento, recebendo o nome do documento a ser editado
