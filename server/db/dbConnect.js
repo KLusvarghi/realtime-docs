@@ -22,6 +22,7 @@ import "dotenv/config";
 const client = new MongoClient(process.env.DB_CONNECTION_STRING)
 
 let documentsCollection;
+let usersCollection;
 
 try {
   if (!process.env.DB_CONNECTION_STRING) {
@@ -30,13 +31,14 @@ try {
   await client.connect();
   const db = client.db('realtime-websockets');
   documentsCollection = db.collection('documents');
+  usersCollection = db.collection('users');
 
-  if (documentsCollection) {
+  if (documentsCollection && usersCollection) {
     console.log('Connected to Data base');
   }
 } catch (error) {
   consol.log(error)
 }
 
-export { documentsCollection }
+export { documentsCollection, usersCollection }
 

@@ -1,4 +1,4 @@
-import { documentsCollection } from "./config/dbConnect.js"
+import { documentsCollection } from "./dbConnect.js"
 
 export function findDocument(name) {
   // usando o metodo do mongo para encontrar o documento, e como o nome da propriedade é igual ao nome da variavel, podemos usar apenas o nome da variavel
