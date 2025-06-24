@@ -11,5 +11,5 @@ export default function generateJwt(payload){
     expiresIn: '1h' // Define o tempo de expiração do token para 1 hora
   });
 
-  return jwt
+  return tokenJwt
 } 

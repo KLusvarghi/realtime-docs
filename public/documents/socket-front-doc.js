@@ -1,7 +1,17 @@
+import { getCookie } from '../utils/cookies.js';
 import { alertAndRedirect, updateEditorText } from './document.js'
 
 // só com essa linha, assim que o usuar entrar nesse aquivo pelo browser, o socket irá conectar ele ao servidor que criamos no arquivo server.js, assim gernado uma "connection" entre o cliente e o servidor
-const socket = io();
+const socket = io("/users", { // para essa rota, é necessário ter um token no cookie
+  auth: {
+    tokenJwt: getCookie("tokenJwt")
+  }
+});
+
+socket.on("connect_error", (error) => {
+  alert(error);
+  window.location.href = "/login/index.html"
+});
 
 // aqui ele irá receber o nome do documento que está sendo editado 
 // e passando o nome do documento para o servidor, sendo escutado pelo lado do backend
